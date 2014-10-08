@@ -39,7 +39,7 @@ int main() {
   cout << "rot[2]: " << rotList.get(2) << endl;
   cout << "rot[3]: " << rotList.get(3) << endl;
   cout << "rot[3]: " << rotList.get(4) << endl;
-
+  cout << endl;
 
   // Test Absorb() fuction
   DLList<int> absorbList;
@@ -55,6 +55,7 @@ int main() {
   DLList<int>* pL2 = &absorbList2;
   absorbList.Absorb(pL2);
   cout << "Size l1 after absorb: " << absorbList.size() << endl;
+  cout << "Size l2 after absorb: " << absorbList2.size() << endl;
   cout << "l1[0]: " << absorbList.get(0) << endl;
   cout << "l1[1]: " << absorbList.get(1) << endl;
   cout << "l1[2]: " << absorbList.get(2) << endl;
