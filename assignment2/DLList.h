@@ -134,7 +134,7 @@ namespace ods {
     Node* front_tmp = dummy.next;
     Node* back_tmp = dummy.prev;
 
-    for (int i = 0; i < n / 2; i++) {
+    for (int i = 0; i < n / 2; i++) { // iterate though comparing the two opposite nodes
       if (front_tmp->x != back_tmp->x) {
         return false;
       }
@@ -148,9 +148,6 @@ namespace ods {
 
   template<class T>
   void DLList<T>::Rotate(int r) {
-    // simply move dummy to the int passed
-    // update 2 pointers to remove dummy
-    // update 4 pointers to instert dummy
 
     // Link head and tail to move dummy
     Node* current_tail = dummy.prev;
@@ -185,30 +182,45 @@ namespace ods {
                                     //then all of the nodes we just added to l1
                                     //will be deleted
     n = n + l2->size();
+    l2->n = 0;
   }
 
   template<class T>
   DLList<T> DLList<T>::deal() {
     DLList<T> l2;
 
-    if (size() > 1) { //Method does not need to run if n is less than 1
+    if (size() > 1) {
       Node* tmp = dummy.next;
-      int index = 0;
-      bool is_odd = false; //switch
+      Node* l2_tmp = &(l2.dummy);
+      Node* l2_dummy_ref = &(l2.dummy);
+      bool tmp_is_odd = false; //makes sure node is odd
       do {
-        if (is_odd) {
-          int e = tmp->x;
-          l2.add(e);
-          tmp = tmp->next;
-          remove(index); // remove node from this list
-          is_odd = false;
+        if (tmp_is_odd) {
+          Node* tmp3 = tmp->next; //temporary nodes
+          Node* tmp2 = tmp->prev;
+
+          //update existing node references to be apart of l2
+          l2_tmp->next = tmp;
+          l2_tmp->next->prev = l2_tmp;
+          l2_tmp = l2_tmp->next;
+          l2_tmp->next = l2_dummy_ref;
+          l2_dummy_ref->prev = l2_tmp;
+          l2.n++;
+
+          //close the list to remove 
+          tmp2->next = tmp3;
+          tmp = tmp3;
+          tmp->prev = tmp2;
+          n--;
+
+          tmp_is_odd = false;
         }
-        else {
+        else
+        {
           tmp = tmp->next;
-          is_odd = true;
-          index++;
+          tmp_is_odd = true;
         }
-      } while (index != size());
+      } while (tmp != &dummy);
     }
 
     return l2; // return list
